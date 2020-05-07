@@ -1,0 +1,52 @@
+<div class="container-fluid"  *ngIf="info$ | async as info">
+  <div class="row w-50 m-auto p-5">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-4 col-centered border border-dark rounded pt-2 pb-2">
+          <p class="text-center mb-0">Your Code Now: {{info.code}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 mt-3">
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <input
+          type="text"
+          class="form-control form-rounded w-100 h-100"
+          placeholder="Payment"
+          [(ngModel)]= "paymentName">
+        </div>
+        <div class="col-3">
+          <input
+            type="text"
+            class="form-control form-rounded w-100 h-100"
+            placeholder="Ammount"
+            [(ngModel)]= "paymentAmount">
+        </div>
+        <div class="col-3">
+          <button type="button" class="btn btn-secondary w-100" (click)="onClickAdd()">+ ADD</button>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <table class="table table-striped table-bordered text-center mb-0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Code</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of table;">
+                <td>{{row.name}}</td>
+                <td>{{row.amount}}</td>
+                <td>{{row.code}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
