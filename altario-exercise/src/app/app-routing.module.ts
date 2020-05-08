@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { GeneratorComponent } from './main/components/generator/generator.component';
-import { PaymentsComponent } from './main/components/payments/payments.component';
+import { GeneratorComponent } from './core/components/generator/generator.component';
+import { PaymentsComponent } from './core/components/payments/payments.component';
 
 
 const routes: Routes = [

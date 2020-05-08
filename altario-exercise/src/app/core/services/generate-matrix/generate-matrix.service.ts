@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Position } from '../../models/position.model';
 import { Info } from '../../models/info.model';
-import { ReplaySubject, Observable, Subject, BehaviorSubject } from 'rxjs';
+import { ReplaySubject, Observable, Subject, BehaviorSubject, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenerateMatrixService {
 
-  private weightConstant: string = '';
+  private weightConstant = '';
   private matrixInitialized = false;
+
   private info$ = new BehaviorSubject<Info>(null);
   private matrix = new Array(10).fill('').map(() => new Array(10).fill(''));
 
@@ -34,22 +35,19 @@ export class GenerateMatrixService {
     this.fillMatrix();
   }
 
-  // private setTwoSecondsInterval(): void {
-  //   setInterval(() => {
-  //     this.generateInfo();
-  //   }, 2000)
-  // }
-
   private fillMatrix(): void {
     this.matrix = this.matrix.map(row => row.map(cell => cell = this.getRandomCharacter()));
 
     if (this.weightConstant) {
       this.fillWeightConstant(this.weightConstant);
-      this.weightConstant = ''
+      this.weightConstant = '';
     }
     const info = { code: this.generateCode(), matrix: this.matrix };
     this.sendInfo(info);
-    setTimeout(this.fillMatrix.bind(this), 2000);
+
+    timer(2000).subscribe(() => {
+      this.fillMatrix();
+    });
   }
 
   private generateCode(): string {
@@ -59,25 +57,14 @@ export class GenerateMatrixService {
     const characterB = this.matrix[position.b][position.a];
     const code = this.getCodeByOccurrences(this.getNOccurrences(characterA), this.getNOccurrences(characterB));
     return code;
-
-    // this.yourCode = code;
-    // this.shareInfoService.sendInfo({code: this.yourCode, matrix: this.matrix});
   }
 
   private fillWeightConstant(weightConstant: string): void {
     const uniqueRandomNumbersArray = this.getRandomPositions(20);
     uniqueRandomNumbersArray.forEach(randomPosition => {
       this.matrix[randomPosition.a][randomPosition.b] = weightConstant.toLocaleLowerCase();
-    })
+    });
   }
-
-  // private changeInput(): void {
-  //   this.inputDisabled = true;
-  //   this.inputCharacter = '';
-  //   setTimeout(() => {
-  //     this.inputDisabled = false;
-  //   }, 4000);
-  // }
 
   private getRandomCharacter(): string {
     const randomAsciiDecimal = Math.floor(Math.random() * 26 + 97);
@@ -90,24 +77,24 @@ export class GenerateMatrixService {
     while (arr.length < nToReturn) {
       const r = Math.floor(Math.random() * 100);
       if (arr.indexOf(r) === -1) {
-        arr.push(r)
-      };
+        arr.push(r);
+      }
     }
-    return arr.map(number => this.getPositionFromNumber(number));
+    return arr.map(num => this.getPositionFromNumber(num));
   }
 
-  private getNOccurrences(character: String): number {
+  private getNOccurrences(character: string): number {
     let count = 0;
-    this.matrix.forEach((row) => row.forEach(cell => cell === character && count++))
+    this.matrix.forEach((row) => row.forEach(cell => cell === character && count++));
     return count;
   }
 
-  private getPositionFromNumber(number: number): Position {
-    const splited = number.toString().split('');
+  private getPositionFromNumber(num: number): Position {
+    const splited = num.toString().split('');
     if (!splited[1]) {
-      return { a: '0', b: splited[0] }
+      return { a: '0', b: splited[0] };
     }
-    return { a: splited[0], b: splited[1] }
+    return { a: splited[0], b: splited[1] };
   }
 
   private getCodeByOccurrences(occurrencesA: number, occurrencesB: number): string {

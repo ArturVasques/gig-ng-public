@@ -2,10 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { GeneratorComponent } from './main/components/generator/generator.component';
-import { PaymentsComponent } from './main/components/payments/payments.component';
+import { GeneratorComponent } from './core/components/generator/generator.component';
+import { PaymentsComponent } from './core/components/payments/payments.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 @NgModule({
   declarations: [
@@ -17,7 +17,8 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

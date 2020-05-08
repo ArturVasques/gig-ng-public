@@ -1,4 +1,5 @@
 <div class="container-fluid"  *ngIf="info$ | async as info">
+  <form [formGroup]="paymentsForm" (submit)="paymentsForm.valid && onSubmit()">
   <div class="row w-50 m-auto p-5">
     <div class="col-12">
       <div class="row">
@@ -14,17 +15,17 @@
           type="text"
           class="form-control form-rounded w-100 h-100"
           placeholder="Payment"
-          [(ngModel)]= "paymentName">
+          formControlName="name">
         </div>
         <div class="col-3">
           <input
             type="text"
             class="form-control form-rounded w-100 h-100"
-            placeholder="Ammount"
-            [(ngModel)]= "paymentAmount">
+            placeholder="Amount"
+            formControlName="amount">
         </div>
         <div class="col-3">
-          <button type="button" class="btn btn-secondary w-100" (click)="onClickAdd()">+ ADD</button>
+          <button type="submit" class="btn btn-secondary w-100">+ ADD</button>
         </div>
       </div>
       <div class="row mt-3">
@@ -49,4 +50,5 @@
       </div>
     </div>
   </div>
+</form>
 </div>
